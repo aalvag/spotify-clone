@@ -6,7 +6,7 @@ import Player from "../components/Player";
 
 export default function Home() {
   return (
-    <div className="bg-black h-screen overflow-hidden">
+    <div className="h-screen overflow-hidden bg-black">
       <Head>
         <title>Spotify Clone</title>
         <link rel="icon" href="/favicon.ico" />
