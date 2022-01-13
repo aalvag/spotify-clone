@@ -1,14 +1,15 @@
 import {
-  HeartIcon,
   HomeIcon,
   LibraryIcon,
-  LogoutIcon,
   PlusCircleIcon,
   RssIcon,
   SearchIcon,
 } from "@heroicons/react/outline";
-import { signOut, useSession } from "next-auth/react";
+import { HeartIcon } from "@heroicons/react/solid";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { playlistIdState } from "../atoms/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
 
 function Sidebar() {
@@ -16,26 +17,19 @@ function Sidebar() {
   const { data: session, status } = useSession();
   const [playlists, setPlaylists] = useState<any>([]);
 
+  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
+
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
-      spotifyApi.getUserPlaylists().then((data) => {
+      spotifyApi.getUserPlaylists().then((data: any) => {
         setPlaylists(data.body.items);
       });
     }
   }, [session, spotifyApi]);
 
   return (
-    <div className="text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll scrollbar-hide h-screen">
+    <div className="text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex">
       <div className="space-y-4">
-        <button
-          className="flex  items-center space-x-2 hover:text-white"
-          onClick={() => {
-            signOut();
-          }}
-        >
-          <LogoutIcon className="h-5 w-5" />
-          <p>Log Out</p>
-        </button>
         <button className="flex  items-center space-x-2 hover:text-white">
           <HomeIcon className="h-5 w-5" />
           <p>Home</p>
@@ -55,11 +49,11 @@ function Sidebar() {
           <p>Create Playlist</p>
         </button>
         <button className="flex  items-center space-x-2 hover:text-white">
-          <HeartIcon className="h-5 w-5" />
+          <HeartIcon className="h-5 w-5 text-blue-500" />
           <p>Liked Songs</p>
         </button>
         <button className="flex  items-center space-x-2 hover:text-white">
-          <RssIcon className="h-5 w-5" />
+          <RssIcon className="h-5 w-5 text-green-500" />
           <p>Your Episodes</p>
         </button>
         <hr className="border-t-[0.1px] border-gray-900" />
@@ -68,6 +62,9 @@ function Sidebar() {
           <p
             key={playlist.id}
             className=" cursor-pointer hover:text-white font-bold"
+            onClick={() => {
+              setPlaylistId(playlist.id);
+            }}
           >
             {playlist.name}
           </p>
