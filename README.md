@@ -1,8 +1,8 @@
 # Spotify-Next
 
-<img width="1439" alt="Screen Shot 2021-12-26 at 3 15 37 AM" src="https://user-images.githubusercontent.com/52144063/147402655-cc8a2734-cffb-43d2-95c3-e5e58f78ae09.png">
+<img width="1439" alt="Screen Shot 2021-12-26 at 3 15 37 AM" src="https://res.cloudinary.com/aalvag/image/upload/v1642164459/Login_Spotify_qah61i.png">
 
-<img width="1439" alt="Screen Shot 2021-12-26 at 3 14 09 AM" src="https://user-images.githubusercontent.com/52144063/147402656-6dd5793b-1262-47f2-8359-12bf8d01a88f.png">
+<img width="1439" alt="Screen Shot 2021-12-26 at 3 14 09 AM" src="https://res.cloudinary.com/aalvag/image/upload/v1642164595/main_spotify_c1y3p0.png">
 
 Spotify clonse using TypeScript, React, Tailwind, Spotify API, & Recoil
 
