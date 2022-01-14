@@ -1,11 +1,12 @@
+import { NextApiRequest } from "next";
 import { getToken } from "next-auth/jwt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(req: any) {
-  //Token will exist if user is logged in
+export async function middleware(req: NextRequest) {
+  // Token will exist if user is logged in
   const token = await getToken({
-    req,
-    secret: process.env.JWT_SECRET || "",
+    req: req as unknown as NextApiRequest,
+    secret: process.env.JWT_SECRET as string,
     secureCookie:
       process.env.NEXTAUTH_URL?.startsWith("https://") ??
       !!process.env.VERCEL_URL,
@@ -13,14 +14,17 @@ export async function middleware(req: any) {
 
   const { pathname } = req.nextUrl;
 
-  // allow the requests if the following is true...
-  // 1) if it is a request for a next-auth session & provider fetching
-  // 2) the token exists
-  if (pathname.includes("/api/auth") || token) {
+  // Redirect to home page if accessing login when already authenticated
+  if (pathname?.includes("/login") && token) {
+    return NextResponse.redirect("/");
+  }
+
+  // Allow request if request for session & provider is fetching or if token exists
+  if (pathname?.includes("/api/auth" || token)) {
     return NextResponse.next();
   }
 
-  // Redirect them to login if they dont have token AND are requesting a protected route
+  // Redirect to login if user is trying to access protected route and has not been authenticated
   if (!token && pathname !== "/login") {
     return NextResponse.redirect("/login");
   }
